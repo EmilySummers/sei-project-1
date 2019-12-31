@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+}
+
+div.grid {
+  width: 160px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: blue;
+
+}
+
+div.grid-item {
+  width: 40px;
+  height: 40px;
+  border: solid 1px black;
+  background-color: yellow;
+  background-image: url('../assets/dot.png');
+  background-size: 45px;
+  background-position: center;
+}
