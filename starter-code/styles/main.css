@@ -7,26 +7,108 @@ body {
   padding: 0;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background-color: red;
+
+
 }
 
-div.grid {
+div.game-board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.player-grid {
   width: 160px;
   height: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: blue;
 
 }
 
-div.grid-item {
+div.player-space {
   width: 40px;
   height: 40px;
   border: solid 1px black;
   background-color: yellow;
   background-image: url('../assets/dot.png');
-  background-size: 45px;
+  background-size: 20px;
   background-position: center;
+  background-repeat: no-repeat;
 }
+
+div.result-grid {
+  width: 40px;
+  height: 400px;
+
+}
+
+div.result-space {
+  width: 40px;
+  height: 40px;
+  border: solid 1px black;
+  background-color: teal;
+  background-image: url('../assets/dot.png'), url('../assets/purple.png'), url('../assets/blue.png'), url('../assets/yellow.png');
+  background-position: left top, right top, left bottom, right bottom;
+  background-size: 17px;
+  background-repeat: no-repeat;
+  
+
+}
+
+div img {
+  width: 40px;
+  height: 40px;
+}
+
+div.colors {
+  width: 160px;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.wrapper {
+  display: flex;
+}
+
+.code {
+  width: 160px;
+  height: 40px;
+  margin-right: 40px;
+  display: flex;
+}
+
+div.red {
+  background-image: url('../assets/red.png');
+}
+
+div.orange {
+  background-image: url('../assets/orange.png');
+}
+
+div.teal {
+  background-image: url('../assets/teal.png');
+}
+
+div.yellow {
+  background-image: url('../assets/yellow.png');
+}
+
+div.grey {
+  background-image: url('../assets/grey.png');
+}
+
+div.green {
+  background-image: url('../assets/green.png');
+}
+
+div.pink {
+  background-image: url('../assets/pink.png');
+}
+
+div.purple {
+  background-image: url('../assets/purple.png');
+}
+
