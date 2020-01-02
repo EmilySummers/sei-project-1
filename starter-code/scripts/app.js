@@ -6,6 +6,7 @@ function init() {
   const colors = document.querySelectorAll('img')
   let selectedColor = null
   let spacesInPlay = []
+  let resultSpacesInPlay = []
   const submitBtn = document.querySelector('#submit')
   const newGameBtn = document.querySelector('#start-game')
 
@@ -28,7 +29,7 @@ function init() {
 
   // changes color of space in play
   function insertColor(e) {
-    if (spacesInPlay.includes(e.target)) {
+    if (spacesInPlay.includes(e.target)) { //! make this better?
       e.target.className = (`${selectedColor}`) // gives element only one class of color
     }
   }
@@ -49,7 +50,7 @@ function init() {
 
   Array(4 * height).join('.').split('.').forEach(() => {
     const marker = document.createElement('div')
-    marker.classList.add('result-space')
+    marker.classList.add('empty-result-space')
     markers.push(marker)
     resultGrid.appendChild(marker)
   })
@@ -72,15 +73,15 @@ function init() {
     playRound()
   }
 
-  let i = 36
+  let i = 0
   function playRound() {
-    if (i < 0) return // stops playRound running if last round
+    if (i > 39) return // stops playRound running if last round
     let n = i + 3
     for (i; i <= n; i++) {
-      spacesInPlay.push(spaces[i])  
-    }
-    console.log(spacesInPlay)
-    
+      spacesInPlay.push(spaces[i]) 
+      resultSpacesInPlay.push(markers[i])
+
+    }    
   }
 
   // do not convert to set (just use array from the start) if duplicates are allowed
@@ -117,28 +118,33 @@ function init() {
 
       if (actual === guess) {
         console.log('Correct!')
-        answers.push('red')
+        answers.push('red-peg')
       } else if (selectedColors.includes(actual)) {
         console.log('Half right!')
-        answers.push('white')
+        answers.push('white-peg')
       }
     }
     console.log(answers)
-    affectResult()
+    markResult()
+    resetGame()
     //! or use findIndex (see notes)
     
   }
 
   // resets arrays after round, activates next row up and restarts round
-  function affectResult() {
-    i -= 8
-    console.log(i)
+  function resetGame() {
     spacesInPlay = []
+    resultSpacesInPlay = []
     selectedColors = []
     answers = []
-    console.log(spacesInPlay)
-    playRound()
-    
+    playRound()    
+  }
+
+  function markResult() {
+    answers.sort()
+    for (let i = 0; i < answers.length; i++) {
+      resultSpacesInPlay[i].className = answers[i]
+    }
   }
 
   // event handlers

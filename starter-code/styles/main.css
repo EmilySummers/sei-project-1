@@ -24,11 +24,11 @@ div.player-grid {
   width: 160px;
   height: 400px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
 
 }
 
-div.player-grid div, div.code div {
+.player-grid div, .code div {
   width: 40px;
   height: 40px;
   border: solid 1px black;
@@ -42,23 +42,24 @@ div.empty-space {
   background-repeat: no-repeat;
 }
 
-div.result-grid {
-  width: 40px;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-
-}
-
-div.result-space {
+.result-grid div {
   width: 20px;
   height: 20px;
   border: solid 1px black;
   background-color: teal;
+}
+
+div.empty-result-space {
   background-image: url('../assets/dot.png');
   background-size: 15px;
   background-position: center;
+}
+
+div.result-grid {
+  width: 40px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap-reverse;
 
 }
 
@@ -123,5 +124,17 @@ div.pink {
 div.purple {
   background-image: url('../assets/purple.png');
   background-size: 40px;
+}
+
+div.red-peg {
+  background-image: url('../assets/red.png');
+  background-size: 15px;
+  background-position: center;
+}
+
+div.white-peg {
+  background-image: url('../assets/white.png');
+  background-size: 15px;
+  background-position: center;
 }
 
