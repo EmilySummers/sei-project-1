@@ -61,7 +61,7 @@ function init() {
 
   Array(width * 1).join('.').split('.').forEach(() => {
     const codeMarker = document.createElement('div')
-    codeMarker.classList.add('empty-space')
+    codeMarker.classList.add('hidden-space')
     codeBlock.push(codeMarker)
     code.appendChild(codeMarker)
   })
@@ -80,7 +80,6 @@ function init() {
     for (i; i <= n; i++) {
       spacesInPlay.push(spaces[i]) 
       resultSpacesInPlay.push(markers[i])
-
     }    
   }
 
@@ -98,11 +97,13 @@ function init() {
     //!   for (let i = 0; i < 4; i++) {
     //!   chosenColors.push(availableColors[Math.floor(Math.random() * 8)])
     //!   }
+
     const colorsArray = [...chosenColors]
     let p = 0
     const newArray = codeBlock.map((item, p) => {
-      item.classList.remove('empty-space')
-      item.classList.add(colorsArray[p])
+      // item.classList.remove('hidden-space')
+      item.setAttribute('value', colorsArray[p])
+      // item.classList.add(colorsArray[p])
       p++
     })
     return newArray
@@ -111,7 +112,7 @@ function init() {
   // checks for each of the code colors - if they completely match it returns red, if they don't completely match it checks if the color is in guess code at all, returns white if yes.
   function checkResult() {
     for (let i = 0; i < 4; i++) { //! change 4 to represent length of codes
-      const actual = codeBlock[i].getAttribute('class')
+      const actual = codeBlock[i].getAttribute('value')
       const guess = spacesInPlay[i].getAttribute('class')
 
       spacesInPlay.forEach(spaceInPlay => selectedColors.push(spaceInPlay.getAttribute('class')))
@@ -126,13 +127,17 @@ function init() {
     }
     console.log(answers)
     markResult()
-    resetGame()
+    endResult()
+    resetRound()
+    
     //! or use findIndex (see notes)
     
   }
 
+  
+
   // resets arrays after round, activates next row up and restarts round
-  function resetGame() {
+  function resetRound() {
     spacesInPlay = []
     resultSpacesInPlay = []
     selectedColors = []
@@ -145,6 +150,53 @@ function init() {
     for (let i = 0; i < answers.length; i++) {
       resultSpacesInPlay[i].className = answers[i]
     }
+  }
+
+  function endResult() {
+    if (answers[3] === 'red-peg') {
+      revealCode()
+      setTimeout(function() {
+        alert('You have won the game!!')
+        if (confirm('Would you like to play again?')) {
+          resetGame()
+        }
+      }, 500)
+    } else if (i > 39 && answers[3] !== 'red-peg') {
+      revealCode()
+      setTimeout(function() {
+        alert('Game over.')
+        if (confirm('Would you like to play again?')) {
+          resetGame()
+        }
+      }, 500)
+    }
+  }
+
+  function resetGame() {
+    i = 0
+    chosenColors.clear()
+    generateCode()
+    // spacesInPlay = []
+    // resultSpacesInPlay = []
+    spaces.forEach(space => {
+      space.className = 'empty-space'
+    })
+    markers.forEach(marker => {
+      marker.className = 'empty-result-space'
+    })
+    codeBlock.forEach(codeMarker => {
+      codeMarker.className = 'hidden-space'
+    })
+    resetRound() //! or playGame() & leave in comments above
+  }
+
+  function revealCode() {
+    const newArray = codeBlock.map(item => {
+      const value = item.getAttribute('value')
+      item.classList.remove('hidden-space')
+      item.classList.add(value)
+    })
+    return newArray
   }
 
   // event handlers
