@@ -9,6 +9,8 @@
   <body>
     <header>
       <!-- <h1>Mastermind</h1> -->
+      <!-- use IDs for JS elements -->
+      <!-- use semantic elements -->
     </header>
     <div class="wrapper">
       <div class="code-row">
@@ -30,10 +32,27 @@
         <img src="assets/pink.png" class="color" alt="pink">
         <img src="assets/grey.png" class="color" alt="grey">
         <img src="assets/red.png" class="color" alt="red">
+      </div>
+      
+      <div>
         <button id="submit">Submit</button>
-        <button id="start-game">Start Game</button>
         <button id="reset-game">Reset Game</button>
       </div>
+    </div>
+
+    <div class="wrapper2">
+      <button id="start-game">Start Game</button>
+      <!-- difficulty level options -->
+      <section class="options">
+        <div class="duplicates">
+          <p>Allow duplicates</p>
+          <div class="slider">
+            <div class="button"></div>
+          </div>
+        </div>
+        <label for="length">Length of code:</label>
+        <input type="number" id="length" value="4" min="4" max="8">
+      </section>
     </div>
   </body>
 </html>
