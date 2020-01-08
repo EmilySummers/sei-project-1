@@ -41,18 +41,26 @@
     </div>
 
     <div class="wrapper2">
-      <button id="start-game">Start Game</button>
+      <p class="players">Player One: <span id="player1"></span></p>
       <!-- difficulty level options -->
-      <section class="options">
+      <section class="holding-page">
+        <button id="start-game">Start Game</button>
         <div class="duplicates">
           <p>Allow duplicates</p>
-          <div class="slider">
+          <div class="slider" id="dup-slider">
             <div class="button"></div>
           </div>
         </div>
         <label for="length">Length of code:</label>
         <input type="number" id="length" value="1" min="4" max="8">
+        <div class="two-players">
+          <p>Two player mode</p>
+          <div class="slider" id="plyr-slider">
+            <div class="button"></div>
+          </div>
+        </div>
       </section>
+      <p class="players">Player Two: <span id="player2"></span></p>
     </div>
   </body>
 </html>
