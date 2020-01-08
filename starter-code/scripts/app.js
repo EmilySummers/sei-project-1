@@ -33,6 +33,11 @@ function init() {
   let selectedColors = []
   let i = 0
   let duplicateCode = []
+  let gameCount = 1
+  let roundCount = 1
+  let tiebreakerRound = false
+  let playerOne = 0
+  let playerTwo = 0
 
 
   wrapper.style.display = 'none'
@@ -148,12 +153,14 @@ function init() {
   }
   
   function generateCode() {
+    
     while (chosenColors.size < width) {
       // do not convert to set (just use array from the start) if duplicates are allowed
       chosenColors.add(availableColors[Math.floor(Math.random() * 8)])
     }
     const colorsArray = [...chosenColors]
     return codeSequence.map((item, p) => item.setAttribute('value', colorsArray[p]))
+    
   }
 
   function generateDuplicateCode() {
@@ -193,7 +200,7 @@ function init() {
       }
     }
     displayScore() //! move these functions
-    endGame()
+    winOrLose()
     resetRound()
   }
 
@@ -222,24 +229,74 @@ function init() {
     return newArray
   }
 
-  function endGame() {
+  function winOrLose() {
     if (score[width - 1] === 'red-peg') {
       revealCode()
       setTimeout(function() {
         alert('You have won the game!!')
         if (confirm('Would you like to play again?')) {
-          resetGame()
+          endGame()
         }
       }, 500)
+
+      if (gameCount % 2 === 0) {
+        playerTwo++
+        console.log(`player 2: ${playerTwo}`)
+      } else {
+        playerOne++
+        console.log(`player 1: ${playerOne}`)
+      }
+
+      if (playerOne === 5 && playerTwo === 5) {
+        alert('Tiebreaker Round')
+        tiebreakerRound = true
+      } else if (playerOne === 5 && playerOne > playerTwo && gameCount % 2 === 0) {
+        alert('Player 1 wins!')
+      } else if (playerTwo === 5 && playerTwo > playerOne) {
+        alert('Player 2 wins!')
+      }
+
+      if (tiebreakerRound === true && gameCount % 2 === 0) {
+        if (playerOne > playerTwo) {
+          alert('Player 1 wins!')
+        } else {
+          alert('Player 2 wins!')
+        }
+      }
+
     } else if (i > ((width * height) - 1) && score[width - 1] !== 'red-peg') {
       revealCode()
       setTimeout(function() {
         alert('Game over.')
         if (confirm('Would you like to play again?')) {
-          resetGame()
+          endGame()
         }
       }, 500)
+
+      if (playerOne === 5 && playerOne > playerTwo && gameCount % 2 === 0) {
+        alert('Player 1 wins!')
+      } 
+
+      if (tiebreakerRound === true && gameCount % 2 === 0) {
+        if (playerOne > playerTwo) {
+          alert('Player 1 wins!')
+        } else {
+          alert('Player 2 wins!')
+        }
+        
+      }
     }
+  }
+
+
+  function endGame() {
+    console.log(gameCount)
+    console.log(roundCount)
+    resetGame()
+    if (gameCount % 2 === 0) roundCount++
+    gameCount++
+    
+    
   }
 
   function revealCode() {
@@ -255,23 +312,22 @@ function init() {
     selectedColors = []
     score = []
     code.innerHTML = ''
-    playerGrid.innerHTML = '' //! STOPS RESET FROM WORKING
+    playerGrid.innerHTML = ''
     scoreGrid.innerHTML = ''
     chosenColors.clear()
     duplicateCode = []
-    spacesInPlay.forEach
-    // spacesInPlay = []
-    // scoreSpacesInPlay = []
+    codeSequence = []
     // spaces.forEach(space => space.className = 'empty-space')
     // scoreSection.forEach(scoreSpace => scoreSpace.childNodes.forEach(array => array.className = 'empty-score'))
     // codeSequence.forEach(codeSpace => codeSpace.className = 'hidden-space')
     
-    playGame()  //! or playGame() & leave in comments above
-    
+    playGame()    
   }
 
+  slider.style.justifyContent = 'flex-start'
+
   function moveSlider() {
-    if (slider.style.justifyContent === '' || slider.style.justifyContent === 'flex-start') {
+    if (slider.style.justifyContent === 'flex-start') {
       slider.style.justifyContent = 'flex-end'
     } else {
       slider.style.justifyContent = 'flex-start'
@@ -285,6 +341,7 @@ function init() {
   resetGameBtn.addEventListener('click', resetGame)
   slider.addEventListener('click', moveSlider)
 
+  //! once reset console .code is empty string
 
 }
 
