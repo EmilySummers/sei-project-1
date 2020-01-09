@@ -13,13 +13,15 @@ body {
   background-position: right, left;
   background-size: contain;
   background-repeat: no-repeat; */
+  /* background-image: url('../assets/');
+  background-size: cover; */
 }
 
 /* take out below if not using overlay */
 
  #overlay-container {
   position: fixed; /* Sit on top of the page content */
-  display: flex; /* Hidden by default */
+  display: none; /* Hidden by default */
   justify-content: center;
   align-items: center;
   width: 100%; /* Full width (cover the whole page) */
@@ -35,29 +37,43 @@ body {
 
 #overlay-text {
   position: fixed; /* Sit on top of the page content */
-  font-size: 100px;
-  color: white;
+  font-size: 200px;
+  color: lime;
+  letter-spacing: 3px;
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
 
 .options {
   background-color: rgba(0, 0, 0, 0.5);
-  height: 260px;
+  height: 240px;
   width: 260px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 10%;
+  border-radius: 50px;
   margin: 20px 20px;
+  color: cadetblue;
+}
+
+#reset-game {
+  margin: 10px 0;
 }
 
 body, button {
-  font-family: 'Poiret One', cursive;
+  font-family: 'Kulim Park', cursive;
   /* letter-spacing: 6px; */
   font-size: 22px;
+  /* font-weight: bold; */
 }
+ button {
+  background-color: cadetblue;
+  color: white;
+  border-radius: 30px;
+  padding: 8px;
+  border: rgb(90, 148, 150) solid 1.5px;
+ }
 
 header {
   display: flex;
@@ -116,7 +132,9 @@ h1 {
   justify-content: center;
   position: absolute;
   width: 400px;
-  margin-top: 30px;
+  height: 100vh;
+  padding-top: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
   
   /* background-color: rgba(173, 216, 230, 0.493); */
   /* height: 600px;
@@ -146,12 +164,17 @@ div.hidden-space {
   background-image: url('../assets/star.png');
   background-size: 45px;
   background-position: center;
-  background-color: rgb(12, 73, 75)
+  background-color: purple
 }
 
 div.game-board {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+div.code-length {
+  display: flex;
   align-items: center;
 }
 
@@ -257,8 +280,8 @@ div.slider {
   width: 40px;
   height: 21px;
   border: 1px solid grey;
-  border-radius: 20%;
-  background-color: limegreen;
+  border-radius: 5px;
+  background-color: cadetblue;
   display: flex;
   margin-left: 10px;
   
@@ -269,11 +292,20 @@ div.button {
   background-color: rgb(233, 233, 233);
   width: 25px;
   height: 20px;
-  border-radius: 20%;
+  border-radius: 5px;
   border: 2px solid grey;
   position: absolute;
   
   
+}
+
+input {
+  font-size: 20px;
+  color: cadetblue;
+  text-align: center;
+  margin-left: 10px;
+  height: 30px;
+  border: 1px cadetblue solid;
 }
 
 div.red {

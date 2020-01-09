@@ -19,6 +19,7 @@ function init() {
   const plyr1Score = document.querySelector('#player1')
   const plyr2Score = document.querySelector('#player2')
   const header = document.querySelector('h1')
+  const overlay = document.querySelector('#overlay-container')
     
   // game variables
   let width = 0
@@ -187,19 +188,21 @@ function init() {
   function winOrLose() { //! break up this function and rename
     if (score[width - 1] === 'red-peg') {
       revealCode()
+      youWin()
       setTimeout(function() {
-        alert('You have won the game!!')
+        // alert('You have won the game!!')
         if (twoPlayers === 'flex-end') {
           addScore()
           twoPlayerResult()
         } else {
-          playAgain()   
+          playAgain() 
         }
       }, 500)
     } else if (i > ((width * height) - 1) && score[width - 1] !== 'red-peg') {
       revealCode()
+      gameOver()
       setTimeout(function() {
-        alert('Game over.')
+        // alert('Game over.')
         twoPlayers === 'flex-start' ? playAgain() : twoPlayerResult()   
       }, 500)
     }
@@ -220,7 +223,10 @@ function init() {
   }  
 
   function playAgain() {
-    if (confirm('Would you like to play again?')) determineReset()
+    if (confirm('Would you like to play again?')) {
+      overlay.style.display = 'none'
+      determineReset()
+    }
   }
 
   function resetGame() {
@@ -355,12 +361,29 @@ function init() {
     plyr2Score.innerHTML = ''
   }
 
+  function removeOverlay() {
+    if (overlay.style.display === 'flex') overlay.style.display = 'none'
+  }
+
+  function gameOver() {
+    overlay.firstElementChild.innerHTML = 'GAME OVER'
+    overlay.firstElementChild.style.color = 'red'
+    overlay.style.display = 'flex'
+  }
+
+  function youWin() {
+    overlay.firstElementChild.innerHTML = 'YOU WIN'
+    overlay.firstElementChild.style.color = 'lime'
+    overlay.style.display = 'flex'
+  }
+
   // event handlers
   newGameBtn.addEventListener('click', determineGameMode)
   colors.forEach(color => color.addEventListener('click', selectColor))
   submitBtn.addEventListener('click', checkResult)
   resetGameBtn.addEventListener('click', determineReset)
   sliderBtns.forEach(slider => slider.addEventListener('click', moveSlider))
+  overlay.addEventListener('click', removeOverlay)
 
 }
 
