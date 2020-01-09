@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Mastermind</title>
-    <script src="scripts/app.js"></script>
-    <link rel="stylesheet" href="styles/main.css">
-  </head>
-  <body>
-    <header>
-      <!-- <h1>Mastermind</h1> -->
-      <!-- use IDs for JS elements -->
-      <!-- use semantic elements -->
-    </header>
-    <div class="wrapper">
-      <div class="code-row">
-        <div class="code">
-        </div>
-      </div>
-      <div class="game-board">
-        <div class="player-grid">
-        </div>
-        <div class="score-grid">
-        </div>
-      </div>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mastermind</title>
+  <script src="scripts/app.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css?family=Amatic+SC|Barlow+Semi+Condensed:400,700|Comfortaa:400,700|Kulim+Park:400,700|Poiret+One|Work+Sans&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+  <header>
+    <h1>Mastermind</h1>
+    <!-- use IDs for JS elements -->
+    <!-- use semantic elements -->
+  </header>
+  <div class="wrapper">
+    <div class="code-row">
+      <div class="code"></div>
+    </div>
+    <div class="game-board">
+      <div class="player-grid"></div>
+      <div class="score-grid"></div>
+    </div>
+    <div class="selection">
       <div class="colors">
-        <img src="assets/green.png" class="color" alt="green"> 
+        <img src="assets/green.png" class="color" alt="green">
         <img src="assets/purple.png" class="color" alt="purple">
         <img src="assets/orange.png" class="color" alt="orange">
         <img src="assets/teal.png" class="color" alt="teal">
@@ -33,35 +36,39 @@
         <img src="assets/grey.png" class="color" alt="grey">
         <img src="assets/red.png" class="color" alt="red">
       </div>
-      
-      <div>
-        <button id="submit">Submit</button>
-        <button id="reset-game">Reset Game</button>
-      </div>
     </div>
+    <button id="submit">Submit</button>
+  </div>
 
-    <div class="wrapper2">
-      <p class="players">Player One: <span id="player1"></span></p>
-      <!-- difficulty level options -->
-      <section class="holding-page">
-        <button id="start-game">Start Game</button>
-        <div class="duplicates">
-          <p>Allow duplicates</p>
-          <div class="slider" id="dup-slider">
-            <div class="button"></div>
-          </div>
+  <div class="wrapper2">
+    <!-- <div id="overlay-container">
+        <p id="overlay-text">YOU WIN</p>
+      </div> -->
+    <p class="players">Player One: <span id="player1"></span></p>
+    <!-- difficulty level options -->
+    <section class="options">
+      <button id="start-game">Start Game</button>
+      <div class="duplicates">
+        <p>Allow duplicates</p>
+        <div class="slider" id="dup-slider">
+          <div class="button"></div>
         </div>
-        <label for="length">Length of code:</label>
+      </div>
+      <div class="code-length">
+        <label for="length">Code length:</label>
         <input type="number" id="length" value="4" min="4" max="8">
-        <div class="two-players">
-          <p>Two player mode</p>
-          <div class="slider" id="plyr-slider">
-            <div class="button"></div>
-          </div>
+      </div>
+      <div class="two-players">
+        <p>Two player mode</p>
+        <div class="slider" id="plyr-slider">
+          <div class="button"></div>
         </div>
-      </section>
-      <p class="players">Player Two: <span id="player2"></span></p>
-    </div>
-  </body>
+      </div>
+      <button id="reset-game">Reset Game</button>
+    </section>
+    <p class="players">Player Two: <span id="player2"></span></p>
+  </div>
+</body>
+
 </html>
 <!-- move reset game button to bottom under options -->
