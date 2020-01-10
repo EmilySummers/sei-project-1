@@ -6,6 +6,8 @@ function init() {
   const scoreGrid = document.querySelector('.score-grid')
   const code = document.querySelector('.code')
   const wrapper = document.querySelector('.wrapper')
+  const wrapperTwo = document.querySelector('.wrapper2')
+  const body = document.querySelector('body')
   let codeSequence = []
   const colors = document.querySelectorAll('.color')
   const submitBtn = document.querySelector('#submit')
@@ -20,7 +22,7 @@ function init() {
   const plyr2Score = document.querySelector('#player2')
   const header = document.querySelector('h1')
   const overlay = document.querySelector('#overlay-container')
-    
+
   // game variables
   let width = 0
   const height = 10
@@ -30,7 +32,7 @@ function init() {
   let duplicatesAllowed = null
   let i = 0
   let m = 0
-  const availableColors = ['green', 'purple', 'orange', 'teal', 'yellow', 'pink', 'grey', 'red']
+  const availableColors = ['green', 'purple', 'orange', 'teal', 'yellow', 'pink', 'white', 'red']
   const chosenColors = new Set
   let duplicateCode = []
   let selectedColors = []
@@ -45,15 +47,18 @@ function init() {
   let gameWon = false
 
   wrapper.style.display = 'none'
+  resetGameBtn.style.display = 'none'
+  body.style.flexDirection = 'column'
   players.forEach(player => player.style.display = 'none')
   dupSlider.style.justifyContent = 'flex-start'
   plyrSlider.style.justifyContent = 'flex-start'
 
 
+
   // creates player, result and code grids
 
   // player grid
-  function generatePlayerGrid () {
+  function generatePlayerGrid() {
     Array(width * height).join('.').split('.').forEach(() => {
       const space = document.createElement('div')
       space.classList.add('empty-space')
@@ -64,7 +69,7 @@ function init() {
   }
 
   // score grid
-  function generateScoreGrid () {
+  function generateScoreGrid() {
     Array(height).join('.').split('.').forEach(() => {
       const scoreCluster = document.createElement('div')
       scoreCluster.classList.add('score-cluster')
@@ -75,7 +80,7 @@ function init() {
       }
       scoreGrid.appendChild(scoreCluster)
     })
-  
+
     const scoreSection = document.querySelectorAll('.score-cluster')
     scoreSection.forEach(score => {
       if (width >= 7) {
@@ -95,7 +100,7 @@ function init() {
       code.appendChild(codeSpace)
     })
   }
- 
+
   // functions
 
   // gets which color was clicked on and listens out of another click on spaces in play
@@ -108,14 +113,19 @@ function init() {
   function insertColor(e) {
     if (spacesInPlay.includes(e.target)) e.target.className = (`${selectedColor}`) // gives element only one class of color
   }
-  
+
   function playGame() {
     width = codeLength.value
     generatePlayerGrid()
     generateScoreGrid()
     generateCodeGrid()
-    wrapper.style.display = 'flex'
+    wrapper.style.display = 'flex' //! remove these from here
     header.style.display = 'none'
+    wrapperTwo.style.width = '100vw'
+    body.style.flexDirection = ''
+    body.style.alignItems = ''
+    resetGameBtn.style.display = 'block'
+
     activateRow()
     duplicatesAllowed === 'flex-end' ? generateDuplicateCode() : generateCode()
     newGameBtn.style.display = 'none'
@@ -124,12 +134,12 @@ function init() {
   function activateRow() {
     if (i > ((width * height) - 1)) return // stops squresInPlay running if last round
     const n = i + (width - 1)
-    for (i; i <= n; i++) spacesInPlay.push(spaces[i]) 
+    for (i; i <= n; i++) spacesInPlay.push(spaces[i])
     for (let i = 0; i <= (width - 1); i++) scoreSpacesInPlay.push(scoreGrid.children[m].children[i])
     spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(0, 0, 0, 0.5)')
     m++
   }
-  
+
   function generateCode() {
     while (chosenColors.size < width) chosenColors.add(availableColors[Math.floor(Math.random() * 8)])
     //! add comment - use array from the start if duplicates are allowed
@@ -141,7 +151,7 @@ function init() {
     while (duplicateCode.length < width) duplicateCode.push(availableColors[Math.floor(Math.random() * 8)])
     return codeSequence.map((item, p) => item.setAttribute('value', duplicateCode[p]))
   }
-    
+
   function checkResult() {
     duplicatesAllowed === 'flex-end' ? determineResult() : checkForDuplicates()
   }
@@ -181,7 +191,7 @@ function init() {
     score.sort()
     const lineScore = scoreSpacesInPlay.map((scoreSpace, i) => { // which method??
       while (i < score.length) return scoreSpace.className = score[i]
-    }) 
+    })
     return lineScore
   }
 
@@ -189,44 +199,46 @@ function init() {
     if (score[width - 1] === 'red-peg') {
       revealCode()
       youWin()
-      setTimeout(function() {
+      setTimeout(function () {
         // alert('You have won the game!!')
         if (twoPlayers === 'flex-end') {
           addScore()
           twoPlayerResult()
         } else {
-          playAgain() 
+          playAgain()
         }
       }, 500)
     } else if (i > ((width * height) - 1) && score[width - 1] !== 'red-peg') {
       revealCode()
       gameOver()
-      setTimeout(function() {
+      setTimeout(function () {
         // alert('Game over.')
-        twoPlayers === 'flex-start' ? playAgain() : twoPlayerResult()   
+        twoPlayers === 'flex-start' ? playAgain() : twoPlayerResult()
       }, 500)
     }
   }
 
   // resets arrays after round, activates next row up and restarts round
   function resetRound() {
-    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgb(0, 0, 0)') 
+    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgb(0, 0, 0)')
     spacesInPlay = []
     scoreSpacesInPlay = []
     selectedColors = []
     score = []
-    activateRow()   
+    activateRow()
   }
 
   function revealCode() {
     return codeSequence.map(peg => peg.className = peg.getAttribute('value'))
-  }  
+  }
 
   function playAgain() {
-    if (confirm('Would you like to play again?')) {
-      overlay.style.display = 'none'
-      determineReset()
-    }
+    setTimeout(function () {
+      if (confirm('Would you like to play again?')) {
+        overlay.style.display = 'none'
+        determineReset()
+      }
+    }, 100)
   }
 
   function resetGame() {
@@ -242,7 +254,7 @@ function init() {
     chosenColors.clear()
     duplicateCode = []
     selectedColors = []
-    score = []  
+    score = []
   }
 
   function determineReset() {
@@ -253,7 +265,7 @@ function init() {
       players.forEach(player => player.style.display = 'none')
       playGame()
     } else {
-      twoPlayerReset() 
+      twoPlayerReset()
       resetGame()
       twoPlayerRound()
     }
@@ -269,15 +281,17 @@ function init() {
   function determineGameMode() {
     duplicatesAllowed = dupSlider.style.justifyContent
     twoPlayers = plyrSlider.style.justifyContent
-    twoPlayers === 'flex-start' ? playGame() : twoPlayerRound()    
+    twoPlayers === 'flex-start' ? playGame() : twoPlayerRound()
   }
 
   function twoPlayerRound() {
     players.forEach(player => player.style.display = '')
     playGame()
-    setTimeout(function() {
-      alert(`Round ${roundCount}: Player ${currentPlayer}'s turn.`)
-    }, 100)
+    if (gameCount === 1) {
+      setTimeout(function () {
+        alert(`Round ${roundCount}: Player ${currentPlayer}'s turn.`)
+      }, 100)
+    }
   }
 
   function addScore() {
@@ -302,20 +316,24 @@ function init() {
 
   function checkForWinner() {
     if (playerOne === 5 && playerTwo === 5) {
-      alert('Tiebreaker Round')
+      tieBreakerAlert()
+      // alert('Tiebreaker Round')
       tiebreaker = true
     } else if (playerOne === 5 && playerTwo === 4 && gameCount % 2 === 0) {
-      alert('Player 1 wins!')
+      playerOneWins()
+      // alert('Player 1 wins!')
       gameWon = true
       twoPlayerReset()
       playAgain()
     } else if (playerTwo === 5 && playerTwo > playerOne) {
-      alert('Player 2 wins!')
+      playerTwoWins
+      // alert('Player 2 wins!')
       gameWon = true
       twoPlayerReset()
       playAgain()
     } else if (playerOne === 5 && playerTwo < 4 && gameCount % 2 !== 0) {
-      alert('Player 1 wins!')
+      playerOneWins()
+      // alert('Player 1 wins!')
       gameWon = true
       twoPlayerReset()
       playAgain()
@@ -325,12 +343,14 @@ function init() {
   function tiebreakerWinner() {
     if (tiebreaker === true && gameCount % 2 === 0) { //! add second if statement to conditions of first?
       if (playerOne > playerTwo) {
-        alert('Player 1 wins!')
+        playerOneWins()
+        // alert('Player 1 wins!')
         gameWon = true
         twoPlayerReset()
         playAgain()
       } else if (playerTwo > playerOne) {
-        alert('Player 2 wins')
+        playerTwoWins()
+        // alert('Player 2 wins!')
         gameWon = true
         twoPlayerReset()
         playAgain()
@@ -339,8 +359,12 @@ function init() {
   }
 
   function endRound() {
-    resetGame()
-    twoPlayerRound()
+    setTimeout(function () {
+      alert(`Round ${roundCount}: Player ${currentPlayer}'s turn.`)
+      overlay.style.display = 'none'
+      resetGame()
+      twoPlayerRound()
+    }, 100)
     if (gameCount % 2 === 0) {
       currentPlayer = 'One'
       roundCount++
@@ -349,7 +373,7 @@ function init() {
     }
     gameCount++
   }
-  
+
   function twoPlayerReset() {
     gameCount = 1
     roundCount = 1
@@ -374,6 +398,24 @@ function init() {
   function youWin() {
     overlay.firstElementChild.innerHTML = 'YOU WIN'
     overlay.firstElementChild.style.color = 'lime'
+    overlay.style.display = 'flex'
+  }
+
+  function playerOneWins() {
+    overlay.firstElementChild.innerHTML = 'PLAYER 1 WINS'
+    overlay.firstElementChild.style.color = 'lime'
+    overlay.style.display = 'flex'
+  }
+
+  function playerTwoWins() {
+    overlay.firstElementChild.innerHTML = 'PLAYER 2 WINS'
+    overlay.firstElementChild.style.color = 'lime'
+    overlay.style.display = 'flex'
+  }
+
+  function tieBreakerAlert() {
+    overlay.firstElementChild.innerHTML = 'TIEBREAKER'
+    overlay.firstElementChild.style.color = 'cadetblue'
     overlay.style.display = 'flex'
   }
 

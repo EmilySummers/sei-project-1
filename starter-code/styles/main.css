@@ -7,14 +7,39 @@ body {
   padding: 0;
   height: 100vh;
   display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
   /* background-image: url('../assets/charles-AQRp2NH-O8k-unsplash.jpg'), url('../assets/charles-lJJlaUWYrPE-unsplash.jpg');
   background-position: right, left;
-  background-size: contain;
-  background-repeat: no-repeat; */
-  /* background-image: url('../assets/');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-color: rgb(156, 156, 156) */
+  /* background-image: url('../assets/giphy\ \(12\).gif');
   background-size: cover; */
+
+  /* for giphy 11 */
+  /* background-size: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: black; */
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 410px;
+}
+
+.players p span {
+  font-size: 30px;
+  font-weight: bold;
+  -webkit-text-stroke: 1px black;
 }
 
 /* take out below if not using overlay */
@@ -30,61 +55,78 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  background-color: rgba(0, 0, 0, 0.75); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
 
 #overlay-text {
   position: fixed; /* Sit on top of the page content */
-  font-size: 200px;
+  font-size: 150px;
   color: lime;
   letter-spacing: 3px;
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
 
+/* button img {
+  size: 1px;
+} */
+
 .options {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 208, 0, 0.75);
   height: 240px;
   width: 260px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  padding: 18px;
   border-radius: 50px;
   margin: 20px 20px;
-  color: cadetblue;
+  color: cadetblue
 }
 
 #reset-game {
   margin: 10px 0;
+  align-self: center;
 }
 
-body, button {
+#start-game {
+  align-self: center;
+}
+
+body {
   font-family: 'Kulim Park', cursive;
   /* letter-spacing: 6px; */
   font-size: 22px;
   /* font-weight: bold; */
+  display: flex;
+  /* flex-direction: column; */
 }
  button {
+  font-family: 'Kulim Park', cursive;
+  /* letter-spacing: 6px; */
+  font-size: 18px;
   background-color: cadetblue;
   color: white;
-  border-radius: 30px;
+  border-radius: 15px;
   padding: 8px;
   border: rgb(90, 148, 150) solid 1.5px;
  }
 
-header {
-  display: flex;
-  align-items: center;
-  
-}
+ header {
+   display: flex;
+   justify-content: center;
+ }
 
 h1 {
-  position: absolute;
+  /* position: absolute; */
   /* animation: enlarge 1s infinite, nudge 1s infinite; */
-  font-size: 50px;
+  font-size: 100px;
+  color: rgb(255, 208, 0);
+  background-color: rgba(95, 158, 160, 0.5);
+  font-family: 'Amatic SC', sans-serif;
 }
 
 /* @keyframes nudge {
@@ -133,8 +175,8 @@ h1 {
   position: absolute;
   width: 400px;
   height: 100vh;
-  padding-top: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
+  padding-top: 100px;
+  /* background-color: rgba(0, 0, 0, 0.5); */
   
   /* background-color: rgba(173, 216, 230, 0.493); */
   /* height: 600px;
@@ -238,24 +280,22 @@ div.empty-score {
 
 #submit {
   margin-right: 80px;
+  height: fit-content;
 }
 
 div.colors {
   width: 160px;
   display: flex;
   flex-wrap: wrap;
-  margin: 20px 80px 20px 0;
+  margin: 10px;
   
 }
 
 div.wrapper2 {
   display: flex;
   height: 100vh;
-  width: 100vw;
+  /* width: 100vw; */
   justify-content: flex-end;
-  
-
-
   /* align-items: center;
   justify-content: space-around; */
   
@@ -299,6 +339,28 @@ div.button {
   
 }
 
+.players {
+  display: flex;
+  width: 80vw;
+  height: 200px;
+  justify-content: space-between;
+  align-items: flex-start;
+
+
+}
+
+.players p {
+  background-color: rgba(95, 158, 160, 0.75);
+  height: 100px;
+  width: 200px;
+  padding: 36px 28px;
+  border-radius: 40px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 input {
   font-size: 20px;
   color: cadetblue;
@@ -328,8 +390,8 @@ div.yellow {
   background-size: 40px;
 }
 
-div.grey {
-  background-image: url('../assets/grey.png');
+div.white {
+  background-image: url('../assets/white.png');
   background-size: 40px;
 }
 
