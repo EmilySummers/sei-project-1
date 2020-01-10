@@ -17,63 +17,66 @@
     <!-- use IDs for JS elements -->
     <!-- use semantic elements -->
   </header>
-  <div id="overlay-container">
-    <p id="overlay-text"></p>
-  </div>
-  <section class="game-container">
-    <div class="wrapper">
-      <div class="code-row">
-        <div class="code"></div>
-      </div>
-      <div class="game-board">
-        <div class="player-grid"></div>
-        <div class="score-grid"></div>
-      </div>
-      <div class="selection">
-        <div class="colors">
-          <img src="assets/green.png" class="color" alt="green">
-          <img src="assets/purple.png" class="color" alt="purple">
-          <img src="assets/orange.png" class="color" alt="orange">
-          <img src="assets/teal.png" class="color" alt="teal">
-          <img src="assets/yellow.png" class="color" alt="yellow">
-          <img src="assets/pink.png" class="color" alt="pink">
-          <img src="assets/white.png" class="color" alt="white">
-          <img src="assets/red.png" class="color" alt="red">
+  <div class="right-container">
+    <div class="game-container">
+      <div class="wrapper">
+        <div class="code-row">
+          <div class="code"></div>
         </div>
-        <button id="submit">Submit</button>
-      </div>
-    </section>
-
-    <div class="wrapper2">
-      <!-- difficulty level options -->
-      <section class="options">
-        <button id="start-game">Start Game</button>
-        <div class="duplicates">
-          <p>Allow duplicates</p>
-          <div class="slider" id="dup-slider">
-            <div class="button"></div>
+        <div class="game-board">
+          <div class="player-grid"></div>
+          <div class="score-grid"></div>
+        </div>
+        <div class="selection">
+          <div class="colors">
+            <img src="assets/green.png" class="color" alt="green">
+            <img src="assets/purple.png" class="color" alt="purple">
+            <img src="assets/orange.png" class="color" alt="orange">
+            <img src="assets/teal.png" class="color" alt="teal">
+            <img src="assets/yellow.png" class="color" alt="yellow">
+            <img src="assets/pink.png" class="color" alt="pink">
+            <img src="assets/white.png" class="color" alt="white">
+            <img src="assets/red.png" class="color" alt="red">
           </div>
+          <button id="submit">Submit</button>
         </div>
-        <div class="code-length">
-          <label for="length">Code length:</label>
-          <input type="number" id="length" value="1" min="4" max="8">
+      </div>
+  
+      <div class="wrapper2">
+        <div id="overlay-container">
+          <p id="overlay-text"></p>
         </div>
-        <div class="two-players">
-          <p>Two player mode</p>
-          <div class="slider" id="plyr-slider">
-            <div class="button"></div>
+        <!-- difficulty level options -->
+        <section class="options">
+          <button id="start-game">Start Game</button>
+          <div class="duplicates">
+            <p>Allow duplicates</p>
+            <div class="slider" id="dup-slider">
+              <div class="button"></div>
+            </div>
           </div>
-        </div>
-        <button id="reset-game">Reset Game</button>
-      </section>
+          <div class="code-length">
+            <label for="length">Code length:</label>
+            <input type="number" id="length" value="1" min="4" max="8">
+          </div>
+          <div class="two-players">
+            <p>Two player mode</p>
+            <div class="slider" id="plyr-slider">
+              <div class="button"></div>
+            </div>
+          </div>
+          <button id="reset-game">Reset Game</button>
+        </section>
+      </div>
     </div>
+    
     <div class="wrapper3">
       <div class="players">
         <p>Player One: <span id="player1"></span></p>
         <p>Player Two: <span id="player2"></span></p>
       </div>
     </div>
-  </section>
+  </div>
 </body>
 
 </html>

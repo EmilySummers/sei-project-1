@@ -122,12 +122,12 @@ function init() {
   function showGame() {
     wrapper.style.display = 'flex'
     header.style.display = 'none'
-    wrapperTwo.style.width = '100vw'
-    wrapperTwo.style.justifyContent = 'flex-end'
+    // wrapperTwo.style.width = '100vw'
     body.style.flexDirection = ''
     body.style.alignItems = ''
     resetGameBtn.style.display = 'block'
     newGameBtn.style.display = 'none'
+    body.style.backgroundImage = 'url(assets/daniele-levis-pelusi-UUjxTEET0c0-unsplash.jpg)'
   }
 
   // activates which spaces are in play and can be affected
