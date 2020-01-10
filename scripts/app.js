@@ -31,7 +31,6 @@ function init() {
   let scoreSpacesInPlay = []
   let duplicatesAllowed = null
   let i = 0
-  let m = 0
   const availableColors = ['green', 'purple', 'orange', 'teal', 'yellow', 'pink', 'white', 'red']
   const chosenColors = new Set
   let duplicateCode = []
@@ -46,14 +45,13 @@ function init() {
   let tiebreaker = false
   let gameWon = false
 
+  // creates holiding page
   wrapper.style.display = 'none'
   resetGameBtn.style.display = 'none'
   body.style.flexDirection = 'column'
   players.forEach(player => player.style.display = 'none')
   dupSlider.style.justifyContent = 'flex-start'
   plyrSlider.style.justifyContent = 'flex-start'
-
-
 
   // creates player, result and code grids
 
@@ -103,7 +101,60 @@ function init() {
 
   // functions
 
-  // gets which color was clicked on and listens out of another click on spaces in play
+  // starts one player or two player mode depending on what user has selected
+  function determineGameMode() {
+    duplicatesAllowed = dupSlider.style.justifyContent
+    twoPlayers = plyrSlider.style.justifyContent
+    twoPlayers === 'flex-start' ? playGame() : twoPlayerRound()
+  }
+
+  function playGame() {
+    width = codeLength.value // stores code length user has selected
+    generatePlayerGrid()
+    generateScoreGrid()
+    generateCodeGrid()
+    showGame()
+    activateRow()
+    duplicatesAllowed === 'flex-end' ? generateDuplicateCode() : generateCode()
+  }
+
+  // removes holding page and displays game page
+  function showGame() {
+    wrapper.style.display = 'flex'
+    header.style.display = 'none'
+    wrapperTwo.style.width = '100vw'
+    wrapperTwo.style.justifyContent = 'flex-end'
+    body.style.flexDirection = ''
+    body.style.alignItems = ''
+    resetGameBtn.style.display = 'block'
+    newGameBtn.style.display = 'none'
+  }
+
+  // activates which spaces are in play and can be affected
+  function activateRow() {
+    if (i > ((width * height) - 1)) return // stops function running if last round of game
+    const n = i + (width - 1) // calculates where end of row is (i  = start of row)
+    for (i; i <= n; i++) spacesInPlay.push(spaces[i])
+    for (let i = 0; i <= (width - 1); i++) {
+      scoreSpacesInPlay.push(scoreGrid.children[gameCount - 1].children[i]) // activates result square and all divs inside
+    }
+    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(0, 0, 0, 0.5)')
+  }
+
+  // generates random color code sequence with no duplicates (currently hidden)
+  function generateCode() {
+    while (chosenColors.size < width) chosenColors.add(availableColors[Math.floor(Math.random() * 8)]) // used set to ensure no duplicates
+    const colorsArray = [...chosenColors]
+    return codeSequence.map((item, i) => item.setAttribute('value', colorsArray[i]))
+  }
+
+  // generates random color code sequence with possible duplicates (currently hidden)
+  function generateDuplicateCode() {
+    while (duplicateCode.length < width) duplicateCode.push(availableColors[Math.floor(Math.random() * 8)]) // used array to allow duplicates
+    return codeSequence.map((item, i) => item.setAttribute('value', duplicateCode[i]))
+  }
+
+  // stores color that was clicked and listens for another click on a space in play
   function selectColor(e) {
     selectedColor = e.target.getAttribute('alt')
     spacesInPlay.forEach(spaceInPlay => spaceInPlay.addEventListener('click', insertColor))
@@ -111,56 +162,19 @@ function init() {
 
   // changes color of space in play
   function insertColor(e) {
-    if (spacesInPlay.includes(e.target)) e.target.className = (`${selectedColor}`) // gives element only one class of color
-  }
-
-  function playGame() {
-    width = codeLength.value
-    generatePlayerGrid()
-    generateScoreGrid()
-    generateCodeGrid()
-    wrapper.style.display = 'flex' //! remove these from here
-    header.style.display = 'none'
-    wrapperTwo.style.width = '100vw'
-    body.style.flexDirection = ''
-    body.style.alignItems = ''
-    resetGameBtn.style.display = 'block'
-
-    activateRow()
-    duplicatesAllowed === 'flex-end' ? generateDuplicateCode() : generateCode()
-    newGameBtn.style.display = 'none'
-  }
-
-  function activateRow() {
-    if (i > ((width * height) - 1)) return // stops squresInPlay running if last round
-    const n = i + (width - 1)
-    for (i; i <= n; i++) spacesInPlay.push(spaces[i])
-    for (let i = 0; i <= (width - 1); i++) scoreSpacesInPlay.push(scoreGrid.children[m].children[i])
-    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(0, 0, 0, 0.5)')
-    m++
-  }
-
-  function generateCode() {
-    while (chosenColors.size < width) chosenColors.add(availableColors[Math.floor(Math.random() * 8)])
-    //! add comment - use array from the start if duplicates are allowed
-    const colorsArray = [...chosenColors]
-    return codeSequence.map((item, p) => item.setAttribute('value', colorsArray[p]))
-  }
-
-  function generateDuplicateCode() {
-    while (duplicateCode.length < width) duplicateCode.push(availableColors[Math.floor(Math.random() * 8)])
-    return codeSequence.map((item, p) => item.setAttribute('value', duplicateCode[p]))
+    if (spacesInPlay.includes(e.target)) e.target.className = (`${selectedColor}`) // ensures space has only one class (removes empty space class)
   }
 
   function checkResult() {
     duplicatesAllowed === 'flex-end' ? determineResult() : checkForDuplicates()
   }
 
+  // alerts user if there are duplicates or empty spaces in their submitted code
   function checkForDuplicates() {
-    const colorsArray = []
-    spacesInPlay.forEach(space => colorsArray.push(space.className))
-    const colorsSet = new Set(colorsArray)
-    colorsSet.size === parseInt(width) && !colorsSet.has('empty-space') ?
+    const playerColors = []
+    spacesInPlay.forEach(space => playerColors.push(space.className))
+    const colorsSet = new Set(playerColors) // filters out any duplicates
+    colorsSet.size === parseInt(width) && !colorsSet.has('empty-space') ? // if set is shorter than expected code length, there must have be a duplicate
       determineResult() : alert('Error. Your selection includes a duplicate or empty space.')
   }
 
@@ -171,36 +185,36 @@ function init() {
     resetRound()
   }
 
-  // checks for each of the code colors - if they completely match it returns red, if they don't completely match it checks if the color is in guess code at all, returns white if yes.
+  // 
   function calculateScore() {
     spacesInPlay.forEach(spaceInPlay => selectedColors.push(spaceInPlay.getAttribute('class')))
     for (let i = 0; i < width; i++) {
-      const codeColor = codeSequence[i].getAttribute('value')
-      const guessedColor = spacesInPlay[i].getAttribute('class')
-      if (codeColor === guessedColor) {
-        score.push('red-peg')
-      } else if (selectedColors.includes(codeColor)) {
-        score.push('white-peg')
+      const codeColor = codeSequence[i].getAttribute('value') // stores generated code color at each position
+      const guessedColor = spacesInPlay[i].getAttribute('class') // stores player selected color at each position
+      if (codeColor === guessedColor) { // colors at position match
+        score.push('red-peg') 
+      } else if (selectedColors.includes(codeColor)) { // if generated color appears anywhere in selected colors
+        score.push('white-peg') 
         const index = selectedColors.indexOf(codeColor)
-        selectedColors.splice(index, 1)
+        selectedColors.splice(index, 1) // ensures multiple points are not received for one color
       }
     }
   }
 
   function displayScore() {
-    score.sort()
-    const lineScore = scoreSpacesInPlay.map((scoreSpace, i) => { // which method??
+    score.sort() // stop score from displaying in order of sequence
+    const lineScore = scoreSpacesInPlay.map((scoreSpace, i) => {
       while (i < score.length) return scoreSpace.className = score[i]
     })
     return lineScore
   }
 
-  function winOrLose() { //! break up this function and rename
-    if (score[width - 1] === 'red-peg') {
+  // checks for if the player has won or if they have run out of turns
+  function winOrLose() {
+    if (score[width - 1] === 'red-peg') { // stops game if player guesses code (all red pegs)
       revealCode()
       youWin()
       setTimeout(function () {
-        // alert('You have won the game!!')
         if (twoPlayers === 'flex-end') {
           addScore()
           twoPlayerResult()
@@ -208,28 +222,17 @@ function init() {
           playAgain()
         }
       }, 500)
-    } else if (i > ((width * height) - 1) && score[width - 1] !== 'red-peg') {
+    } else if (i > ((width * height) - 1) && score[width - 1] !== 'red-peg') { // stops game if they reach last row and do not submit correct code
       revealCode()
       gameOver()
       setTimeout(function () {
-        // alert('Game over.')
         twoPlayers === 'flex-start' ? playAgain() : twoPlayerResult()
       }, 500)
     }
   }
 
-  // resets arrays after round, activates next row up and restarts round
-  function resetRound() {
-    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgb(0, 0, 0)')
-    spacesInPlay = []
-    scoreSpacesInPlay = []
-    selectedColors = []
-    score = []
-    activateRow()
-  }
-
   function revealCode() {
-    return codeSequence.map(peg => peg.className = peg.getAttribute('value'))
+    return codeSequence.map(peg => peg.className = peg.getAttribute('value')) // transfer color from value to class to reveal
   }
 
   function playAgain() {
@@ -241,6 +244,29 @@ function init() {
     }, 100)
   }
 
+  function resetRound() {
+    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgb(0, 0, 0)')
+    spacesInPlay = []
+    scoreSpacesInPlay = []
+    selectedColors = []
+    score = []
+    activateRow()
+  }
+
+  function determineReset() {
+    duplicatesAllowed = dupSlider.style.justifyContent
+    twoPlayers = plyrSlider.style.justifyContent
+    if (twoPlayers === 'flex-start') {
+      resetGame()
+      players.forEach(player => player.style.display = 'none') // if one player mode - removes player score elements
+      playGame()
+    } else {
+      twoPlayerReset()
+      resetGame()
+      twoPlayerRound()
+    }
+  }
+
   function resetGame() {
     code.innerHTML = ''
     playerGrid.innerHTML = ''
@@ -250,50 +276,25 @@ function init() {
     scoreSpacesInPlay = []
     codeSequence = []
     i = 0
-    m = 0
     chosenColors.clear()
     duplicateCode = []
     selectedColors = []
     score = []
   }
 
-  function determineReset() {
-    duplicatesAllowed = dupSlider.style.justifyContent
-    twoPlayers = plyrSlider.style.justifyContent //! store as true or false for readability
-    if (twoPlayers === 'flex-start') {
-      resetGame()
-      players.forEach(player => player.style.display = 'none')
-      playGame()
-    } else {
-      twoPlayerReset()
-      resetGame()
-      twoPlayerRound()
-    }
-  }
-
-  function moveSlider(e) {
-    e.target.parentElement.style.justifyContent === 'flex-start' ?
-      e.target.parentElement.style.justifyContent = 'flex-end' : e.target.parentElement.style.justifyContent = 'flex-start'
-  }
-
   // two player mode functions
 
-  function determineGameMode() {
-    duplicatesAllowed = dupSlider.style.justifyContent
-    twoPlayers = plyrSlider.style.justifyContent
-    twoPlayers === 'flex-start' ? playGame() : twoPlayerRound()
-  }
-
   function twoPlayerRound() {
-    players.forEach(player => player.style.display = '')
+    players.forEach(player => player.style.display = '') // shows player score elements
     playGame()
     if (gameCount === 1) {
       setTimeout(function () {
-        alert(`Round ${roundCount}: Player ${currentPlayer}'s turn.`)
+        alert(`Round ${roundCount}: Player ${currentPlayer}'s turn.`) // displays on first round only
       }, 100)
     }
   }
 
+  // only runs if player wins a round - adds 1 to their score
   function addScore() {
     if (gameCount % 2 === 0) {
       playerTwo++
@@ -309,48 +310,44 @@ function init() {
     tiebreakerWinner()
     if (gameWon === true) {
       gameWon = false
-      return
+      return // stops round from resetting if game has been won (game is over)
     }
     endRound()
   }
 
+  // checks if either player has reached 5 (won games) before other player - if both reach 5 in same round tiebreaker round runs until someone wins
   function checkForWinner() {
     if (playerOne === 5 && playerTwo === 5) {
       tieBreakerAlert()
-      // alert('Tiebreaker Round')
       tiebreaker = true
     } else if (playerOne === 5 && playerTwo === 4 && gameCount % 2 === 0) {
       playerOneWins()
-      // alert('Player 1 wins!')
       gameWon = true
       twoPlayerReset()
       playAgain()
     } else if (playerTwo === 5 && playerTwo > playerOne) {
-      playerTwoWins
-      // alert('Player 2 wins!')
+      playerTwoWins()
       gameWon = true
       twoPlayerReset()
       playAgain()
     } else if (playerOne === 5 && playerTwo < 4 && gameCount % 2 !== 0) {
       playerOneWins()
-      // alert('Player 1 wins!')
       gameWon = true
       twoPlayerReset()
       playAgain()
     }
   }
 
+  // checks for winner (player 1 point up) at end of tiebreaker round
   function tiebreakerWinner() {
-    if (tiebreaker === true && gameCount % 2 === 0) { //! add second if statement to conditions of first?
+    if (tiebreaker === true && gameCount % 2 === 0) { 
       if (playerOne > playerTwo) {
         playerOneWins()
-        // alert('Player 1 wins!')
         gameWon = true
         twoPlayerReset()
         playAgain()
       } else if (playerTwo > playerOne) {
         playerTwoWins()
-        // alert('Player 2 wins!')
         gameWon = true
         twoPlayerReset()
         playAgain()
@@ -361,10 +358,11 @@ function init() {
   function endRound() {
     setTimeout(function () {
       alert(`Round ${roundCount}: Player ${currentPlayer}'s turn.`)
-      overlay.style.display = 'none'
+      overlay.style.display = 'none' // removes win/lose page from previous round
       resetGame()
       twoPlayerRound()
     }, 100)
+
     if (gameCount % 2 === 0) {
       currentPlayer = 'One'
       roundCount++
@@ -385,9 +383,7 @@ function init() {
     plyr2Score.innerHTML = ''
   }
 
-  function removeOverlay() {
-    if (overlay.style.display === 'flex') overlay.style.display = 'none'
-  }
+  // overlay functions - display win/lose pages
 
   function gameOver() {
     overlay.firstElementChild.innerHTML = 'GAME OVER'
@@ -419,6 +415,16 @@ function init() {
     overlay.style.display = 'flex'
   }
 
+  function removeOverlay() {
+    if (overlay.style.display === 'flex') overlay.style.display = 'none'
+  }
+
+  // moves slider to opposite side when clicked
+  function moveSlider(e) {
+    e.target.parentElement.style.justifyContent === 'flex-start' ?
+      e.target.parentElement.style.justifyContent = 'flex-end' : e.target.parentElement.style.justifyContent = 'flex-start'
+  }
+
   // event handlers
   newGameBtn.addEventListener('click', determineGameMode)
   colors.forEach(color => color.addEventListener('click', selectColor))
@@ -431,12 +437,3 @@ function init() {
 
 window.addEventListener('DOMContentLoaded', init)
 
-//! once reset console .code has empty string
-
-//! change names of functions/variables to more meaningful names
-//! see if array method is easier option
-//! check what each function does - if it is more than one thing -> separate
-//! where repeated try to add into a function instead of typing out same code
-//! rename m, n and one letter variables
-//! is there better way of organising two player mode
-//! remove if statements from inside others and put into functions

@@ -17,7 +17,10 @@
     <!-- use IDs for JS elements -->
     <!-- use semantic elements -->
   </header>
-  <div class="game-container">
+  <div id="overlay-container">
+    <p id="overlay-text"></p>
+  </div>
+  <section class="game-container">
     <div class="wrapper">
       <div class="code-row">
         <div class="code"></div>
@@ -39,12 +42,9 @@
         </div>
         <button id="submit">Submit</button>
       </div>
-    </div>
+    </section>
 
     <div class="wrapper2">
-      <div id="overlay-container">
-        <p id="overlay-text"></p>
-      </div>
       <!-- difficulty level options -->
       <section class="options">
         <button id="start-game">Start Game</button>
@@ -73,7 +73,7 @@
         <p>Player Two: <span id="player2"></span></p>
       </div>
     </div>
-  </div>
+  </section>
 </body>
 
 </html>
