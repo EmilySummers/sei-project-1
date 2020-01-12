@@ -1,13 +1,15 @@
 function init() {
 
   //  DOM variables
+  const gameContainer = document.querySelector('.game-container')
   const playerGrid = document.querySelector('.player-grid')
   let spaces = []
   const scoreGrid = document.querySelector('.score-grid')
   const code = document.querySelector('.code')
   const wrapper = document.querySelector('.wrapper')
-  const wrapperTwo = document.querySelector('.wrapper2')
+  const options = document.querySelector('.options')
   const body = document.querySelector('body')
+  const buttons = document.querySelectorAll('button')
   let codeSequence = []
   const colors = document.querySelectorAll('.color')
   const submitBtn = document.querySelector('#submit')
@@ -31,6 +33,7 @@ function init() {
   let scoreSpacesInPlay = []
   let duplicatesAllowed = null
   let i = 0
+  let m = 0
   const availableColors = ['green', 'purple', 'orange', 'teal', 'yellow', 'pink', 'white', 'red']
   const chosenColors = new Set
   let duplicateCode = []
@@ -46,12 +49,12 @@ function init() {
   let gameWon = false
 
   // creates holiding page
-  wrapper.style.display = 'none'
+  gameContainer.style.display = 'none'
   resetGameBtn.style.display = 'none'
-  body.style.flexDirection = 'column'
   players.forEach(player => player.style.display = 'none')
   dupSlider.style.justifyContent = 'flex-start'
   plyrSlider.style.justifyContent = 'flex-start'
+  wrapper.style.flexDirection = 'column'
 
   // creates player, result and code grids
 
@@ -120,14 +123,15 @@ function init() {
 
   // removes holding page and displays game page
   function showGame() {
-    wrapper.style.display = 'flex'
+    gameContainer.style.display = 'flex'
     header.style.display = 'none'
-    // wrapperTwo.style.width = '100vw'
-    body.style.flexDirection = ''
-    body.style.alignItems = ''
+    options.style.backgroundColor = 'rgba(95, 158, 160, 0.75)'
+    buttons.forEach(button => button.style.color = 'cadetblue')
+    wrapper.style.flexDirection = 'row'
     resetGameBtn.style.display = 'block'
     newGameBtn.style.display = 'none'
-    body.style.backgroundImage = 'url(assets/daniele-levis-pelusi-UUjxTEET0c0-unsplash.jpg)'
+    sliderBtns.forEach(button => button.style.backgroundColor = 'white')
+    body.style.backgroundImage = 'url(assets/blue-and-red-galaxy-artwork-1629236.jpg)'
   }
 
   // activates which spaces are in play and can be affected
@@ -136,9 +140,10 @@ function init() {
     const n = i + (width - 1) // calculates where end of row is (i  = start of row)
     for (i; i <= n; i++) spacesInPlay.push(spaces[i])
     for (let i = 0; i <= (width - 1); i++) {
-      scoreSpacesInPlay.push(scoreGrid.children[gameCount - 1].children[i]) // activates result square and all divs inside
+      scoreSpacesInPlay.push(scoreGrid.children[m].children[i]) // activates result square and all divs inside
     }
-    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(0, 0, 0, 0.5)')
+    m++
+    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')
   }
 
   // generates random color code sequence with no duplicates (currently hidden)
@@ -276,6 +281,7 @@ function init() {
     scoreSpacesInPlay = []
     codeSequence = []
     i = 0
+    m = 0
     chosenColors.clear()
     duplicateCode = []
     selectedColors = []
@@ -286,6 +292,7 @@ function init() {
 
   function twoPlayerRound() {
     players.forEach(player => player.style.display = '') // shows player score elements
+    wrapper.style.height = '40vw'
     playGame()
     if (gameCount === 1) {
       setTimeout(function () {
