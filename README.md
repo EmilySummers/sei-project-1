@@ -1,1 +1,0 @@
-# sei-project-1
