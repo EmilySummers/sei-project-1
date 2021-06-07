@@ -131,7 +131,7 @@ function init() {
     resetGameBtn.style.display = 'block'
     newGameBtn.style.display = 'none'
     sliderBtns.forEach(button => button.style.backgroundColor = 'white')
-    body.style.backgroundImage = 'url(assets/blue-and-red-galaxy-artwork-1629236.jpg)'
+    body.style.backgroundImage = 'url(assets/background.jpeg)'
   }
 
   // activates which spaces are in play and can be affected
@@ -143,7 +143,7 @@ function init() {
       scoreSpacesInPlay.push(scoreGrid.children[m].children[i]) // activates result square and all divs inside
     }
     m++
-    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')
+    spacesInPlay.forEach(space => space.style.backgroundColor = 'rgba(50, 50, 50, 0.7)')
   }
 
   // generates random color code sequence with no duplicates (currently hidden)

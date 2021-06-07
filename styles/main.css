@@ -25,10 +25,10 @@ header {
 }
 
 h1 {
-  color: white;
+  color: rgb(255, 208, 0);
   font-family: 'Work Sans', sans-serif;
   font-size: 100px;
-  -webkit-text-stroke: rgb(255, 208, 0) 0.1px;
+  text-shadow: 5px 10px 15px black;
 }
 
 .game-container {
@@ -138,7 +138,7 @@ div img {
 button {
   padding: 8px;
   background-color: rgb(255, 208, 0); 
-  color: rgba(255, 0, 76, 0.75);
+  color: black;
   font-family: 'Comfortaa', cursive;
   font-size: 18px;
   border: 1px solid rgb(206, 173, 29);
